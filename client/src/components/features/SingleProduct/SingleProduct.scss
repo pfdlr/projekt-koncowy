@@ -1,0 +1,23 @@
+.product-page {
+  .product-property {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    .slider-controls {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+      svg {
+        cursor: pointer;
+        margin: 0 5px 0 5px;
+
+      }
+    }
+    
+  }
+  .product-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+}

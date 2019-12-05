@@ -1,7 +1,7 @@
 import React from 'react';
-import Logo from '../../common/Logo/Logo'
+import Cright from '../../common/Cright/Cright'
 import MainMenu from '../../layout/MainMenu/MainMenu'
-import './NavBar.scss'
+import './Footer.scss'
 
 class NavBar extends React.Component {
 
@@ -18,8 +18,8 @@ class NavBar extends React.Component {
     const { links } = this.state;
 
     return (
-      <nav className='navbar'>
-      <Logo />
+      <nav className='footer'>
+      {<Cright />}
       <MainMenu links={links} />
     </nav>
     );

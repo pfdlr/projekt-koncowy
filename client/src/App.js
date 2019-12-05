@@ -7,8 +7,9 @@ import Home from './components/pages/Home/HomePage';
 import Products from './components/pages/Products/ProductsPage';
 import Contact from './components/pages/Contact/ContactPage';
 import SingleProduct from './components/pages/SingleProduct/SingleProductPage';
-/* import AddProductToCart from './components/pages/AddProduct/AddProductPage'; */
+import Cart from './components/features/Cart/CartContainer';
 import NotFound from './components/pages/NotFound/NotFoundPage';
+
 
 class App extends React.Component {
 
@@ -17,10 +18,10 @@ class App extends React.Component {
       <MainLayout>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/products" exact component={Products} />
+          {<Route path="/products" exact component={Products} />}
           <Route path="/contact" exact component={Contact} />
-          {/* <Route path="/products/new" exact component={AddProductToCart} /> */}
           <Route path="/product/:id" exact component={SingleProduct} />
+          <Route path="/cart" exact component={Cart} />
           <Route component={NotFound} />
         </Switch>
       </MainLayout>

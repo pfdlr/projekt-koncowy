@@ -1,13 +1,32 @@
-@import '../../../styles/settings.scss';
+@import "../../../styles/settings.scss";
 
 .main-menu {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
+  text-transform: uppercase;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
 
   li {
     margin: 0 $base-size;
+    //background-color: gold;
+    
+    color: white;
+    :hover {
+      background-color: white;
+      color: black;
+      padding: 5px 10px;
+    }
+    a {
+      text-decoration: none;
+     color: white;
+    }
+    a.active {
+      color: red;
+      border-bottom: 3px solid white;
+    } 
   }
-
 }

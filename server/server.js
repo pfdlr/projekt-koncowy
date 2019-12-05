@@ -7,14 +7,14 @@ const fetch = require("node-fetch");
 
 const app = express();
 
-//const postRoutes = require('./routes/post.routes');
+const postRoutes = require('./routes/post.routes');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(helmet());
 
-//app.use('/api', postRoutes);
+
 
 /* app.use(express.static(path.join(__dirname, '/../client/build'))); // Serve static files from the React app */
 
@@ -29,7 +29,7 @@ app.get("/api/products", function(req, res) {
       lang: "en-US",
       sizeSchema: "US",
       offset: "0",
-      categoryId: "8799",
+      categoryId: 27396,
       limit: 50,
       store: "US"
     };
@@ -44,6 +44,7 @@ app.get("/api/products", function(req, res) {
     .catch(err => {
       res.send(err);
     });
+    //.catch(err => console.error(err));
 });
 // API for single product
 app.get("/api/product:id", function(req, res) {
@@ -55,7 +56,7 @@ app.get("/api/product:id", function(req, res) {
       currency: "USD",
       id: req.params.id.replace(':', '')
     };
-
+    
   Object.keys(params).forEach(key => url1.searchParams.append(key, params[key]));
 
   fetch(url1, config.HEADERS)
@@ -63,12 +64,13 @@ app.get("/api/product:id", function(req, res) {
     .then(data => {
       res.send({ data });
     })
+    
     .catch(err => {
       res.send(err);
     });
+    
 });
-
-
+app.use('/api', postRoutes);
 
 app.listen(config.PORT, function() {
   console.log("Server is running on port:", config.PORT);

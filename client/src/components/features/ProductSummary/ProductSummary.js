@@ -1,28 +1,43 @@
-import React from 'react';
-import { PropTypes } from 'prop-types';
-import { Link } from 'react-router-dom';
-import Button from '../../common/Button/Button';
-import SmallTitle from '../../common/SmallTitle/SmallTitle';
-import HtmlBox from '../../common/HtmlBox/HtmlBox';
-import './ProductSummary.scss';
-import cutText from '../../../utils/cutText'
+import React from "react";
+import { PropTypes } from "prop-types";
+import { Link } from "react-router-dom";
+//import TextField from "../../common/TextField/TextField";
+import "./ProductSummary.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
+//import { Container, Row, Col, Button } from "react-bootstrap";
+//import cutText from "../../../utils/cutText";
 
-const ProductSummary = ({ id, name, price, brandName }) => (
-  <article className="product-summary">
-    <SmallTitle>{name}</SmallTitle>
-    <p>Brand: {brandName}</p>
-   {/*  <HtmlBox>{cutText(content, 50)}</HtmlBox> */}
-    <Button variant="primary">
-        <Link to={`/product/${id}`}>Read more</Link>
-     </Button>
-  </article>
+const ProductSummary = ({ id, name, price, imageUrl }) => (
+  <div className="product-container">
+    <Link to={`/product/${id}`}>
+      <img src={"https://" + imageUrl} alt={name} />
+      <div className="product-name">{name}</div>
+      {price.isOutletPrice ? (
+        <div className="prices">
+          <div className="current-price">Price: {price.current.text}</div>
+          <div className="rrp-price">Old Price: {price.rrp.text}</div>
+          <div className="outlet">outlet</div>
+        </div>
+      ) : price.isMarkedDown ? (
+        <div className="prices">
+          <div  className="current-price">Price: {price.current.text}</div>
+          <div className="rrp-price">Old Price: {price.previous.text}</div>
+          <div className="marked-down">marked down</div>
+        </div>
+      ) : (
+        <div className="current-price">Price: {price.current.text}</div>
+      )}
+    </Link>
+  </div>
 );
 
 ProductSummary.propTypes = {
-  id: PropTypes.string,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  author: PropTypes.string,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+
+  
+  
+  
 };
 
 export default ProductSummary;

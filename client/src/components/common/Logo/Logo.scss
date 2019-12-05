@@ -1,8 +1,6 @@
 @import '../../../styles/settings.scss';
 
-.logo {
-  font-weight: bold;
-  font-size: $base-size * 2;
-  color: $color-text;
+.logo-img {
+  height: 100px;
   margin: $base-size;
 }
