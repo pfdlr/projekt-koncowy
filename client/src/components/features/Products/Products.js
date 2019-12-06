@@ -4,33 +4,39 @@ import ProductsList from "../ProductsList/ProductsList";
 import Spinner from "../../common/Spinner/Spinner";
 import Alert from "../../common/Alert/Alert";
 import ProductsCounter from "../ProductsCounter/ProductsCounter";
-//import Pagination from "../../common/Pagination/Pagination";
+import Pagination from "../../common/Pagination/Pagination";
 //import SortContainer from "../../features/Sort/SortContainer";
 
 export class Products extends React.Component {
   componentDidMount() {
-    const { loadProducts } = this.props;
-     loadProducts(); 
-    
+    const { loadProducts, initialPage, productsPerPage } = this.props;
+     loadProducts(initialPage, productsPerPage); 
   }
 
-  render() {
-    const { products, request } = this.props;
+  loadProductsPage = (page) => {
+    const { loadProductsByPage, productsPerPage } = this.props;
+    loadProductsByPage(page, productsPerPage);
+  } 
 
-    if (request.pending === false && request.success === true && products.length > 0)
+  render() {
+    const { products, request, presentPage, pagination, pages, productsAmount } = this.props;
+    const { loadProductsPage } = this;
+    
+    if (request.pending === false && request.success === true && products.length > 0 && pagination === true)
       return (
         <div>
-          <ProductsCounter counter={products.length} />
-          {/* <SortContainer /> */}
+          <ProductsCounter counter={productsAmount.length} />
           <ProductsList products={products} />
-          {/* <Pagination
-            pages={10}
-            onPageChange={page => {
-              console.log(page);
-            }}
-          /> */}
+          <Pagination pages={pages} onPageChange={loadProductsPage} initialPage={presentPage} />
         </div>
       );
+    else if (request.pending === false && request.success === true && products.length > 0 && pagination !== true)
+    return (
+      <div>
+        {/* <ProductsCounter counter={products.length} /> */}
+        <ProductsList products={products} />
+      </div>
+    );  
     else if (request.pending === true || request.success === null) return <Spinner />;
     else if (request.pending === false && request.error !== null) return <Alert variant="error"> {request.error} </Alert>;
     else if (request.pending === false && request.success === true && products.length === 0) return <Alert variant="info"> No products </Alert>;

@@ -5,9 +5,9 @@ import Products from '../../features/Products/ProductsContainer';
 
 const HomePage = () => (
   <div>
-  <PageTitle>Blog</PageTitle>
+  <PageTitle>ASOS - products for men</PageTitle>
   <SortContainer />
-  <Products productsPerPage={9} pagination={true} currentPage={1}/>
+  <Products productsPerPage={9} pagination={true}/>
   
 </div>
 );

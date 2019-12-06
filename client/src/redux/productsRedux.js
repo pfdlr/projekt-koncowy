@@ -5,15 +5,19 @@ import { orderBy } from "lodash";
 /* SELECTORS */
 export const getProducts = ({ products }) => products.data;
 export const getRequest = ({ products }) => products.request;
+export const getProductsCounter = ({ products }) => products.data.length;
 export const getSortedProducts = ({ products }) => {
+  const end =  (products.presentPage * products.productsPerPage);
+  const start = (end - products.productsPerPage);
   let _ = require('lodash')
-  return (_.orderBy([...products.data], products.key, products.order));
+  let list = _.orderBy([...products.data], products.key, products.order);
+  return (list.slice(start, end))
  };
 
-export const getProductsCounter = ({ products }) => products.data.length;
 
-//export const getPages = ({ products }) => Math.ceil(products.amount / products.productsPerPage);
-//export const presentPage = ({ products }) => products.presentPage;
+
+export const getPages = ({ products }) => Math.ceil(products.data.length / products.productsPerPage);
+export const presentPage = ({ products }) => products.presentPage;
 
 // action name creator
 const reducerName = "products";
@@ -26,7 +30,7 @@ export const loadProducts = payload => ({ payload, type: LOAD_PRODUCTS });
 export const resetRequest = () => ({ type: RESET_REQUEST });
 export const setSortArgs = payload => ({payload, type: SORT_ARGS})
 
-//export const loadProductsByPage = payload => ({ payload, type: LOAD_PRODUCTS_PAGE });
+export const loadProductsByPage = payload => ({ payload, type: LOAD_PRODUCTS_PAGE });
 
 
 
@@ -36,7 +40,7 @@ export const START_REQUEST = createActionName("START_REQUEST");
 export const END_REQUEST = createActionName("END_REQUEST");
 export const ERROR_REQUEST = createActionName("ERROR_REQUEST");
 export const RESET_REQUEST = createActionName("RESET_REQUEST");
-//export const LOAD_PRODUCTS_PAGE = createActionName("LOAD_PRODUCTS_PAGE");
+export const LOAD_PRODUCTS_PAGE = createActionName("LOAD_PRODUCTS_PAGE");
 export const SORT_ARGS = createActionName('SORT_ARGS');
 export const LOAD_SORTED_PRODUCTS = createActionName('LOAD_SORTED_PRODUCTS');
 
@@ -52,8 +56,9 @@ const initialState = {
   key: '',
   order: '',
   amount: 0,
-  productsPerPage: 3,
-  presentPage: 1
+  productsPerPage: 9,
+  presentPage: 1,
+  productsAmount: 0
 };
 
 /* THUNKS */
@@ -80,7 +85,7 @@ export const loadProductsRequest = () => {
 export default function reducer(statePart = initialState, action = {}) {
   switch (action.type) {
     case LOAD_PRODUCTS:
-      return { ...statePart, data: action.payload.data.products };
+      return { ...statePart, data: action.payload.data.products, productsAmount: action.payload.data.products.length };
     case START_REQUEST:
       return { ...statePart, request: { pending: true, error: null, success: null } };
     case END_REQUEST:
@@ -90,15 +95,13 @@ export default function reducer(statePart = initialState, action = {}) {
     case RESET_REQUEST:
       return { ...statePart, request: { pending: false, error: null, success: null } };
     case SORT_ARGS: 
-    return { ...statePart, key: action.payload.key, order: action.payload.order };
-    /* case LOAD_PRODUCTS_PAGE:
+      return { ...statePart, key: action.payload.key, order: action.payload.order };
+    case LOAD_PRODUCTS_PAGE:
       return {
         ...statePart,
-        productsPerPage: action.payload.productsPerPage,
-        presentPage: action.payload.presentPage,
-        amount: action.payload.amount,
-        data: [...action.payload.products]
-      }; */
+        //productsPerPage: action.payload.productsPerPage,
+        presentPage: action.payload,        
+     };
     default:
       return statePart;
   }

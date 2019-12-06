@@ -5,38 +5,11 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  .cart-container {
-    background-color: white;
-    width: 70%;
-    .product-container {
-      display: flex;
-      justify-content: space-between;
-      position: relative;
-      width: 100%;
-
-      a {
-        width: 85%;
-        background-color: #eaeaea;
-        .cart-product-data {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          margin-left: 10px;
-          width: 70%;
-        }
-      }
-
-      .cart-item-number {
-        text-align: left;
-        position: absolute;
-        right: 20px;
-        top: 40%;
-        margin: 0 20px;
-      }
-    }
-  }
 
   .cart-summary {
+    position: relative;
+    display: flex;
+    justify-content: end;
     .payment-container {
       position: sticky;
       top: 80px;
@@ -46,6 +19,7 @@
       height: 200px;
       padding: 10px;
       border: 1px solid black;
+      margin: 5px 0;
 
       .subtotal {
         display: flex;

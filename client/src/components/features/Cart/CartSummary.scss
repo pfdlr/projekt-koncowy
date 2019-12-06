@@ -1,32 +1,26 @@
-.cart {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 10px;
-  padding: 10px;
- .cart-summary {
-   display: flex;
- }
- 
- 
- 
- 
- 
+ .cart-container {
+  /* background-color: white; */
+  width: 100%;
+  margin: 10px 0;
   .product-container {
     display: flex;
     flex-direction: row;
-    a {
-      text-decoration: none;
+    .cart-image {
+      height: 150px;
       display: flex;
-
-      .cart-image {
-        height: 150px;
-        display: flex;
-        img {
-          height: inherit;
-        }
+      img {
+        height: inherit;
       }
+    }
+    a {
+      width: 85%;
+      background-color: #eaeaea;
       .cart-product-data {
         display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 10px;
+        width: 70%;
         .brand-name {
         }
         .product-name {
@@ -34,8 +28,18 @@
         .current-price {
         }
       }
-    }
+      
+      .cart-item-amount {
+        text-align: left;
+        /* position: absolute; */
+        right: 20px;
+        top: 40%;
+        margin: 0 20px;
+        .btn.btn-secondary {
+          margin: 5px;
+      }
+      }
+    }    
   }
+}  
 
-  
-}

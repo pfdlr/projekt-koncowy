@@ -1,6 +1,9 @@
 .sort {
+  display: flex;
+  justify-content: flex-start;
   margin-bottom: 10px;
+
   .btn-group {
-    margin: 10px auto;
+    margin-left: 10px;
   }
 }

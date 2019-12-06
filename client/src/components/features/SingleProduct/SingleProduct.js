@@ -4,9 +4,9 @@ import { withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 import Spinner from "../../common/Spinner/Spinner";
 import Alert from "../../common/Alert/Alert";
-import PageTitle from "../../common/PageTitle/PageTitle";
+import SectionTitle from "../../common/SectionTitle/SectionTitle";
 import HtmlBox from "../../common/HtmlBox/HtmlBox";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import TinySlider from "tiny-slider-react";
 import "./SingleProduct.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -37,13 +37,13 @@ class SingleProduct extends React.Component {
     if (request.pending === false && request.success === true)
       return (
         <div className="product-page">
-          <PageTitle>{product.data.name}</PageTitle>
+          <SectionTitle>{product.data.name}</SectionTitle>
           <p>Brand: {product.data.brand.name}</p>
           <div className="product-property">
             <div className="slider">
               <div className="slider-controls">
-                <FaChevronLeft onClick={() => this.onGoTo('prev')}/>
-                <FaChevronRight onClick={() =>  this.onGoTo('next')}/>
+                <FaChevronLeft onClick={() => this.onGoTo('prev')} />
+                <FaChevronRight onClick={() => this.onGoTo('next')} />
               </div>
               <TinySlider settings={settings} ref={ts => this.ts = ts}>
                 {product.data.media.images.map(image => (
@@ -73,10 +73,7 @@ class SingleProduct extends React.Component {
       );
     else if (request.pending === true || request.success === null) return <Spinner />;
     else if (request.pending === false && request.error !== null) return <Alert variant="error"> {request.error} </Alert>;
-    /* else if (request.pending === false && request.success === true && product.singleProduct.data.length === 0)
-      return (
-        <Alert variant='info'> No products </Alert>
-      ) */
+
   }
 }
 
