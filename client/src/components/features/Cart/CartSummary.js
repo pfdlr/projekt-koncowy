@@ -41,8 +41,8 @@ const CartSummary = ({ cart, summary, discount }) => {
               ))}
             </tbody>
           </table>
-              <p>Starting price: {(summary / discount).toFixed(2)}</p>
-              <p>Discount: - {((summary / discount) - summary).toFixed(2)}</p>
+              <p>Starting price: {(summary / discount).toFixed(2)}$</p>
+              <p>Discount: - {((summary / discount) - summary).toFixed(2)}$</p>
           <h4 className="total">TOTAL: {summary} $</h4>
         </Modal.Body>
         <Modal.Footer>
