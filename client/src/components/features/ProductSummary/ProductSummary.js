@@ -20,7 +20,7 @@ const ProductSummary = ({ id, name, price, imageUrl }) => (
         </div>
       ) : price.isMarkedDown ? (
         <div className="prices">
-          <div  className="current-price">Price: {price.current.text}</div>
+          <div className="current-price">Price: {price.current.text}</div>
           <div className="rrp-price">Old Price: {price.previous.text}</div>
           <div className="marked-down">marked down</div>
         </div>
@@ -34,10 +34,8 @@ const ProductSummary = ({ id, name, price, imageUrl }) => (
 ProductSummary.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-
-  
-  
-  
+  imageUrl: PropTypes.string.isRequired,
+  price: PropTypes.object.isRequired,
 };
 
 export default ProductSummary;

@@ -3,7 +3,6 @@ import { BASE_URL, API_URL } from "../config";
 import { orderBy } from "lodash";
 
 /* SELECTORS */
-export const getProducts = ({ products }) => products.data;
 export const getRequest = ({ products }) => products.request;
 export const getProductsCounter = ({ products }) => products.data.length;
 export const getSortedProducts = ({ products }) => {
@@ -58,7 +57,6 @@ const initialState = {
   amount: 0,
   productsPerPage: 9,
   presentPage: 1,
-  productsAmount: 0
 };
 
 /* THUNKS */
@@ -85,7 +83,7 @@ export const loadProductsRequest = () => {
 export default function reducer(statePart = initialState, action = {}) {
   switch (action.type) {
     case LOAD_PRODUCTS:
-      return { ...statePart, data: action.payload.data.products, productsAmount: action.payload.data.products.length };
+      return { ...statePart, data: action.payload.data.products };
     case START_REQUEST:
       return { ...statePart, request: { pending: true, error: null, success: null } };
     case END_REQUEST:
@@ -97,11 +95,7 @@ export default function reducer(statePart = initialState, action = {}) {
     case SORT_ARGS: 
       return { ...statePart, key: action.payload.key, order: action.payload.order };
     case LOAD_PRODUCTS_PAGE:
-      return {
-        ...statePart,
-        //productsPerPage: action.payload.productsPerPage,
-        presentPage: action.payload,        
-     };
+      return { ...statePart, presentPage: action.payload };
     default:
       return statePart;
   }

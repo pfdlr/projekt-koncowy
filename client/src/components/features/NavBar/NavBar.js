@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../../common/Logo/Logo'
+import CartHomepage from '../../common/CartHomePage/CartHomePage'
 import MainMenu from '../../layout/MainMenu/MainMenu'
 import './NavBar.scss'
 
@@ -8,8 +9,6 @@ class NavBar extends React.Component {
   state = {
     links: [
       { path: '/', title: 'Home' },
-      /* { path: '/products', title: 'Products' }, */
-      
       { path: '/contact', title: 'Contact' },
     ],
   }
@@ -21,6 +20,7 @@ class NavBar extends React.Component {
       <nav className='navbar'>
       <Logo />
       <MainMenu links={links} />
+      <CartHomepage />
     </nav>
     );
   }

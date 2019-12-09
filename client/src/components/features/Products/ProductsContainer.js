@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getProducts, getSortedProducts, getRequest,  loadProductsRequest, presentPage, getPages, loadProductsByPage } from '../../../redux/productsRedux';
+import { getSortedProducts, getRequest,  loadProductsRequest, presentPage, getPages, loadProductsByPage, getProductsCounter } from '../../../redux/productsRedux';
 import Products from './Products';
  
 const mapStateToProps = state => ({
@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
   products: getSortedProducts(state),
   presentPage: presentPage(state),
   pages: getPages(state),
-  productsAmount: getProducts(state),
+  productsAmount: getProductsCounter(state),
 
 });
 

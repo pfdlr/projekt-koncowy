@@ -5,25 +5,110 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  margin-top: 20px;
+  .cart-container {
+    /* background-color: white; */
+    width: 100%;
+    margin: 10px 0;
+    background-color: #d1d1d1;
+
+    .product-container {
+      display: flex;
+      flex-direction: row;
+
+      a {
+        width: 85%;
+        display: flex;
+
+        .cart-image {
+          height: 150px;
+          display: flex;
+
+          img {
+            height: inherit;
+            border: 1px solid rgb(150, 150, 150);
+          }
+        }
+
+        .cart-product-data {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          margin-left: 10px;
+          width: 70%;
+
+          .brand-name {
+          }
+
+          .product-name {
+          }
+
+          .current-price {
+          }
+        }
+      }
+
+      .cart-item-amount {
+        margin: auto;
+        padding-top: 65px;
+
+        .btn.btn-secondary {
+          margin: 5px;
+          width: 40px;
+          height: 40px;
+          margin: 3px;
+        }
+        .btn.remove {
+          position: absolute;
+          top: 15px;
+          right: 20px;
+          font-size: 10px;
+          padding: 0;
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+  div[role="alert"] {
+    margin: 1rem 1rem 1.5rem 0;
+    max-width: unset;
+    width: 100%;
+    background: #d4edda;
+  }
 
   .cart-summary {
     position: relative;
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    .row {
+      width: 100%;
+      margin: 0;
+    }
     .payment-container {
       position: sticky;
       top: 80px;
       right: 0;
       border: 1px solid;
-      width: 30%;
-      height: 200px;
+      width: 300px;
+      height: 100%;
       padding: 10px;
-      border: 1px solid black;
-      margin: 5px 0;
-
+      border: 1px solid rgb(141, 141, 141);
+      margin: 10px 0 10px 15px;
+      background-color: rgb(255, 255, 203);
+      border-radius: 10px;
+      box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.5);
+      .code-form {
+        border-bottom: 1px solid;
+        padding: 5px;
+        button {
+          margin-top: 5px;
+        }
+      }
       .subtotal {
         display: flex;
         justify-content: space-around;
+        border-bottom: 1px solid;
       }
     }
   }

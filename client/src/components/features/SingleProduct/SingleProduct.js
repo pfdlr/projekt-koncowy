@@ -11,7 +11,6 @@ import TinySlider from "tiny-slider-react";
 import "./SingleProduct.scss";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-
 class SingleProduct extends React.Component {
   componentDidMount() {
     const { loadSingleProduct, resetRequest } = this.props;
@@ -19,18 +18,21 @@ class SingleProduct extends React.Component {
     resetRequest();
   }
 
-  handleClickAdd = () => {
+  handleClickAdd = e => {
+    e.stopPropagation();
     const { addProductToCart, product } = this.props;
     addProductToCart({
       id: product.data.id,
       name: product.data.name,
       price: product.data.price.current.text,
-      imgUrl: product.data.media.images[0].url,
-      brand: product.data.brand.name
+      pricevalue: product.data.price.current.value,
+      imgurl: product.data.media.images[0].url,
+      brand: product.data.brand.name,
+      amount: 1
     });
     this.props.history.push("/cart");
   };
-  onGoTo = dir => this.ts.slider.goTo(dir)
+  onGoTo = dir => this.ts.slider.goTo(dir);
   render() {
     const { product, request } = this.props;
     const settings = { nav: false, mouseDrag: true, loop: true, items: 1, gutter: 5, controls: false };
@@ -42,74 +44,55 @@ class SingleProduct extends React.Component {
           <div className="product-property">
             <div className="slider">
               <div className="slider-controls">
-                <FaChevronLeft onClick={() => this.onGoTo('prev')} />
-                <FaChevronRight onClick={() => this.onGoTo('next')} />
+                <FaChevronLeft onClick={() => this.onGoTo("prev")} />
+                <FaChevronRight onClick={() => this.onGoTo("next")} />
               </div>
-              <TinySlider settings={settings} ref={ts => this.ts = ts}>
-                {product.data.media.images.map(image => (
-                  <div xs={12} sm={6} md={4} key={image.id} className="product-image">
+              <TinySlider settings={settings} ref={ts => (this.ts = ts)}>
+                {product.data.media.images.map((image, i) => (
+                  <div xs={12} sm={6} md={4} key={i} className="product-image">
                     <img src={"http://" + image.url} alt={product.data.name} />
                   </div>
                 ))}
               </TinySlider>
             </div>
             <div className="product-data">
-              <h5>Price: {product.data.price.current.text}</h5>
+              {product.data.price.isOutletPrice ? (
+                <div className="prices">
+                  <h5 lassName="current-price">Price: {product.data.price.current.text}</h5>
+                  <h6 className="rrp-price">Old Price: {product.data.price.rrp.text}</h6>
+                  <div className="outlet">outlet</div>
+                </div>
+              ) : product.data.price.isMarkedDown ? (
+                <div className="prices">
+                  <h5 className="current-price">Price: {product.data.price.current.text}</h5>
+                  <h6 className="rrp-price">Old Price: {product.data.price.previous.text}</h6>
+                  <div className="marked-down">marked down</div>
+                </div>
+              ) : (
+                <h5 className="current-price">Price: {product.data.price.current.text}</h5>
+              )}
               <HtmlBox>{product.data.description}</HtmlBox>
               <HtmlBox>{product.data.info.aboutMe}</HtmlBox>
               <HtmlBox>{product.data.info.sizeAndFit}</HtmlBox>
               <HtmlBox>{product.data.info.careInfo}</HtmlBox>
             </div>
           </div>
-          <div className='product-buttons'>
+          <div className="product-buttons">
             <Button variant="light" onClick={() => this.props.history.goBack()}>
               &lt; Back
-          </Button>
+            </Button>
             <Button onClick={this.handleClickAdd} variant={"success"}>
               Add to cart
-          </Button>
+            </Button>
           </div>
         </div>
       );
     else if (request.pending === true || request.success === null) return <Spinner />;
     else if (request.pending === false && request.error !== null) return <Alert variant="error"> {request.error} </Alert>;
-
   }
 }
 
 SingleProduct.propTypes = {
-  product: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      price: PropTypes.objectOf(
-        PropTypes.shape({
-          current: PropTypes.objectOf(
-            PropTypes.shape({
-              text: PropTypes.string.isRequired
-            })
-          )
-        })
-      ),
-      info: PropTypes.objectOf(
-        PropTypes.shape({
-          aboutMe: PropTypes.string.isRequired,
-          sizeAndFit: PropTypes.string.isRequired,
-          careInfo: PropTypes.string.isRequired
-        })
-      ),
-      media: PropTypes.objectOf(
-        PropTypes.shape({
-          images: PropTypes.objectOf(
-            PropTypes.shape({
-              url: PropTypes.string.isRequired
-            })
-          )
-        })
-      )
-    })
-  ),
   loadSingleProduct: PropTypes.func.isRequired
 };
 

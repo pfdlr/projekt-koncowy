@@ -1,0 +1,20 @@
+@import '../../../styles/settings.scss';
+
+a {
+  position: relative;
+  .cart-img {
+    width: 100px;
+  }
+  .in-cart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: brown;
+    line-height: 30px;
+    text-align: center;
+    color: white;
+  }
+}

@@ -1,39 +1,61 @@
-import React from "react";
-import { PropTypes } from "prop-types";
-import { Link } from "react-router-dom";
-//import TextField from "../../common/TextField/TextField";
+import React, { useState } from "react";
 import "./CartSummary.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
-const CartSummary = ({ id, name, price, brand, imgUrl }) => (
-  <div className="cart-container">
-    <div className="product-container">
-      <Link cato={`/product/${id}`}>
-        <div className="cart-image">
-          <img src={"https://" + imgUrl} alt={name} />
-        </div>
-        <div className="cart-product-data">
-          <div className="brand-name">Brand: {brand}</div>
-          <div className="product-name">{name}</div>
-          <div className="current-price">Price: {price}</div>
-        </div>
-        </Link>
-        <div className="cart-item-amount">
-         <Button variant="secondary">+</Button><Button variant="secondary">-</Button>
-        </div>
-      
-    </div>
-    
-  </div>
-);
+const CartSummary = ({ cart, summary, discount }) => {
+  const [show, setShow] = useState(false);
 
-CartSummary.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  brand: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  imgUrl: PropTypes.string.isRequired,
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  //const { summary } = this.props;
+  return (
+    <>
+      <Button variant="success" className="button-summary" onClick={handleShow}>
+        Show summary
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Cart summary</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <table class="table-summary">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Sum</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((cartProduct, id) => (
+                <tr key={id} {...cartProduct}>
+                  <td>{cartProduct.name}</td>
+                  <td>{cartProduct.brand}</td>
+                  <td>{cartProduct.price}</td>
+                  <td>{cartProduct.amount}</td>
+                  <td>{cartProduct.pricevalue * cartProduct.amount} $</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+              <p>Starting price: {(summary / discount).toFixed(2)}</p>
+              <p>Discount: - {((summary / discount) - summary).toFixed(2)}</p>
+          <h4 className="total">TOTAL: {summary} $</h4>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Pay
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 };
 
 export default CartSummary;

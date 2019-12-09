@@ -1,45 +1,18 @@
- .cart-container {
-  /* background-color: white; */
-  width: 100%;
-  margin: 10px 0;
-  .product-container {
-    display: flex;
-    flex-direction: row;
-    .cart-image {
-      height: 150px;
-      display: flex;
-      img {
-        height: inherit;
-      }
-    }
-    a {
-      width: 85%;
-      background-color: #eaeaea;
-      .cart-product-data {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin-left: 10px;
-        width: 70%;
-        .brand-name {
-        }
-        .product-name {
-        }
-        .current-price {
-        }
-      }
-      
-      .cart-item-amount {
-        text-align: left;
-        /* position: absolute; */
-        right: 20px;
-        top: 40%;
-        margin: 0 20px;
-        .btn.btn-secondary {
-          margin: 5px;
-      }
-      }
-    }    
-  }
-}  
 
+.button-summary {
+    margin: 20px 0;
+}
+.modal-dialog {
+  max-width: 900px;
+  margin: 1.75rem auto;
+
+  table.table-summary {
+    border: 1px solid #000000;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    thead {
+        background-color: rgb(157, 188, 196);
+    }
+  }
+}

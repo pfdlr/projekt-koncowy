@@ -5,7 +5,7 @@ module.exports = {
       method: "GET",
       headers: {
         "x-rapidapi-host": "asos2.p.rapidapi.com",
-        "x-rapidapi-key": "5c14fab8bemshb8ff8dbfa22333bp1edf44jsne4de2d90d6c5"
+        "x-rapidapi-key": "cb8586fe1fmsh0f83d09e41fa9e3p171006jsn6155c4283dfa"
       }
   }
 }
