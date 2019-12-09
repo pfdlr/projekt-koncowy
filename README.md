@@ -13,6 +13,7 @@ Stylowanie skromne.
 
 Największym problemem dla mnie było łączenie i komunikacja miedzy komponentami.
 ### Uruchomienie
+#### Projekt można uruchomić tylko lokalnie
 Do działania aplikacji konieczne jest uruchomienie obu procesów dla serwera i aplikacji.
 
 Z głównego poziomu `yarn start` - 
