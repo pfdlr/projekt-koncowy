@@ -1,5 +1,5 @@
 const Product = require('../models/product.model');
-const uuid = require('uuid');
+//const uuid = require('uuid');
 
 // get all products
 
@@ -34,7 +34,7 @@ exports.addProduct = async function (req, res) {
     newProduct.title = title;
     newProduct.author = author;
     newProduct.content = content;
-    newProduct.id = uuid();
+    //newProduct.id = uuid();
 
     productSaved = await newProduct.save();
     res.status(200).json(productSaved);
