@@ -5,7 +5,7 @@ W założeniu miał powstać w oparciu o full stack MERN ale ze względu ogranic
 
 Nie korzystam z MongoDB tylko z zewnętrznego API.
 
-Exspress, tymczasowo, wykorzystuję jako pośrednika między zdalnym API a aplikacją. Docelowo albo uruchomię bazę, albo Fetch API przeniosę do aplikacji.
+Exspress, tymczasowo, wykorzystuję jako pośrednika między zdalnym API a aplikacją. Docelowo albo uruchomię bazę, albo Fetch API przeniosę do aplikacji. !!!AKTUALIZACJA - na branchu `refactoring` znajduje się wersja clienta obsługująca API. Serwer został usunięty.
 
 Ze względu na wspomniane ograniczenia czasowe skupiłem się na wymaganych w założeniach projektu funkcjonalnościach. W niektórych przypadkach ograniczyłem się do najprostszych rozwiązań - niekoniecznie najlepszych. 
 
