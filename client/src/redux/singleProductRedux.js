@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, API_URL } from '../config';
+import { BASE_URL, API_URL, HEADERS } from '../config';
 
 /* SELECTORS */
 export const getSingleProduct = ({ product }) => product.singleProduct;
@@ -39,18 +39,39 @@ const initialState = {
 
 /* THUNKS */
 /* load single product */
-export const loadSingleProductRequest = (id) => {
+export const loadSingleProductRequest = (productId) => {
   return async dispatch => {
+
+    const url = new URL("https://asos2.p.rapidapi.com/products/v3/detail"),
+    params = {
+      store: "US",
+      sizeSchema: "US",
+      lang: "en-US",
+      currency: "USD",
+      id: productId
+    };
+
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
     dispatch(startRequest());
 
-    try {
-      let res = await axios.get(`${BASE_URL}${API_URL}/product:${id}`);
-      dispatch(loadSingleProduct(res.data));
-      dispatch(endRequest());
-    } catch (e) {
-      dispatch(errorRequest(e.message));
-    }
+    fetch(url, HEADERS)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          throw (res.error);
+        }
+        dispatch(endRequest());
+        if (res.hasOwnProperty('message')){
+          dispatch(errorRequest(res.message));
+        }
+        else {
+          dispatch(loadSingleProduct(res));
+        }
+      })
+      .catch(error => {
+        dispatch(errorRequest());
+      });
   };
 };
 
