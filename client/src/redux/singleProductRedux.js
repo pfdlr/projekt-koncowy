@@ -61,13 +61,14 @@ export const loadSingleProductRequest = (productId) => {
         if (res.error) {
           throw (res.error);
         }
-        dispatch(endRequest());
+        
         if (res.hasOwnProperty('message')){
           dispatch(errorRequest(res.message));
         }
         else {
           dispatch(loadSingleProduct(res));
         }
+        dispatch(endRequest());
       })
       .catch(error => {
         dispatch(errorRequest());

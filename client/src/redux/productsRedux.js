@@ -88,13 +88,14 @@ export const loadProductsRequest = () => {
         if (res.error) {
           throw (res.error);
         }
-        dispatch(endRequest());
-        if (res.hasOwnProperty('message')){
+
+        if (res.hasOwnProperty('message')) {
           dispatch(errorRequest(res.message));
         }
         else {
           dispatch(loadProducts(res));
         }
+        dispatch(endRequest());
       })
       .catch(error => {
         dispatch(errorRequest());
