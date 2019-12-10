@@ -44,7 +44,6 @@ app.get("/api/products", function(req, res) {
     .catch(err => {
       res.send(err);
     });
-    //.catch(err => console.error(err));
 });
 // API for single product
 app.get("/api/product:id", function(req, res) {

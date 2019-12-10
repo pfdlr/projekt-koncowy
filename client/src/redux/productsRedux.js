@@ -1,17 +1,17 @@
 import axios from "axios";
-import { BASE_URL, API_URL } from "../config";
+import { BASE_URL, API_URL, HEADERS } from "../config";
 import { orderBy } from "lodash";
 
 /* SELECTORS */
 export const getRequest = ({ products }) => products.request;
 export const getProductsCounter = ({ products }) => products.data.length;
 export const getSortedProducts = ({ products }) => {
-  const end =  (products.presentPage * products.productsPerPage);
+  const end = (products.presentPage * products.productsPerPage);
   const start = (end - products.productsPerPage);
   let _ = require('lodash')
-  let list = _.orderBy([...products.data], products.key, products.order);
+  let list = _.orderBy(products.data, products.key, products.order);
   return (list.slice(start, end))
- };
+};
 
 
 
@@ -27,7 +27,7 @@ export const endRequest = () => ({ type: END_REQUEST });
 export const errorRequest = error => ({ error, type: ERROR_REQUEST });
 export const loadProducts = payload => ({ payload, type: LOAD_PRODUCTS });
 export const resetRequest = () => ({ type: RESET_REQUEST });
-export const setSortArgs = payload => ({payload, type: SORT_ARGS})
+export const setSortArgs = payload => ({ payload, type: SORT_ARGS })
 
 export const loadProductsByPage = payload => ({ payload, type: LOAD_PRODUCTS_PAGE });
 
@@ -52,6 +52,7 @@ const initialState = {
     error: null,
     success: null
   },
+  message: '',
   key: '',
   order: '',
   amount: 0,
@@ -63,16 +64,41 @@ const initialState = {
 /* load all products */
 export const loadProductsRequest = () => {
   return async dispatch => {
-    
+
+    const url = new URL("https://asos2.p.rapidapi.com/products/v2/list"),
+      params = {
+        country: "US",
+        currency: "USD",
+        sort: "freshness",
+        lang: "en-US",
+        sizeSchema: "US",
+        offset: "0",
+        categoryId: 27396,
+        limit: 50,
+        store: "US"
+      };
+
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
     dispatch(startRequest());
 
-    try {
-      let res = await axios.get(`${BASE_URL}${API_URL}/products`);
-      dispatch(loadProducts(res.data));
-      dispatch(endRequest());
-    } catch (e) {
-      dispatch(errorRequest(e.message));
-    }
+    fetch(url, HEADERS)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          throw (res.error);
+        }
+        dispatch(endRequest());
+        if (res.hasOwnProperty('message')){
+          dispatch(errorRequest(res.message));
+        }
+        else {
+          dispatch(loadProducts(res));
+        }
+      })
+      .catch(error => {
+        dispatch(errorRequest());
+      });
   };
 };
 
@@ -83,7 +109,7 @@ export const loadProductsRequest = () => {
 export default function reducer(statePart = initialState, action = {}) {
   switch (action.type) {
     case LOAD_PRODUCTS:
-      return { ...statePart, data: action.payload.data.products };
+      return { ...statePart, data: action.payload.products };
     case START_REQUEST:
       return { ...statePart, request: { pending: true, error: null, success: null } };
     case END_REQUEST:
@@ -92,7 +118,7 @@ export default function reducer(statePart = initialState, action = {}) {
       return { ...statePart, request: { pending: false, error: action.error, success: false } };
     case RESET_REQUEST:
       return { ...statePart, request: { pending: false, error: null, success: null } };
-    case SORT_ARGS: 
+    case SORT_ARGS:
       return { ...statePart, key: action.payload.key, order: action.payload.order };
     case LOAD_PRODUCTS_PAGE:
       return { ...statePart, presentPage: action.payload };
