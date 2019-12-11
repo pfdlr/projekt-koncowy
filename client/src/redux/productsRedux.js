@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, API_URL, HEADERS } from "../config";
+import { BASE_URL, API_PRODUCTS_URL, HEADERS, LIST_PARAMS } from "../config";
 import { orderBy } from "lodash";
 
 /* SELECTORS */
@@ -65,17 +65,10 @@ const initialState = {
 export const loadProductsRequest = () => {
   return async dispatch => {
 
-    const url = new URL("https://asos2.p.rapidapi.com/products/v2/list"),
+    const url = new URL(`${BASE_URL}${API_PRODUCTS_URL}`),
       params = {
-        country: "US",
-        currency: "USD",
-        sort: "freshness",
-        lang: "en-US",
-        sizeSchema: "US",
-        offset: "0",
-        categoryId: 27396,
-        limit: 50,
-        store: "US"
+        LIST_PARAMS,
+        categoryId: 27396
       };
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
@@ -85,20 +78,18 @@ export const loadProductsRequest = () => {
     fetch(url, HEADERS)
       .then(res => res.json())
       .then(res => {
-        if (res.error) {
-          throw (res.error);
-        }
 
         if (res.hasOwnProperty('message')) {
           dispatch(errorRequest(res.message));
         }
         else {
           dispatch(loadProducts(res));
+          dispatch(endRequest());
         }
-        dispatch(endRequest());
+
       })
       .catch(error => {
-        dispatch(errorRequest());
+        dispatch(errorRequest(error.message));
       });
   };
 };

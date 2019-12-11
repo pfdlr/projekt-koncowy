@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, API_URL, HEADERS } from '../config';
+import { BASE_URL, API_PRODUCT_URL, HEADERS, DETAIL_PARAMS } from '../config';
 
 /* SELECTORS */
 export const getSingleProduct = ({ product }) => product.singleProduct;
@@ -14,7 +14,7 @@ export const startRequest = () => ({ type: START_REQUEST });
 export const endRequest = () => ({ type: END_REQUEST });
 export const errorRequest = error => ({ error, type: ERROR_REQUEST });
 export const loadSingleProduct = payload => ({ payload, type: LOAD_SINGLE_PRODUCT });
-export const resetRequest = () => ({type: RESET_REQUEST});
+export const resetRequest = () => ({ type: RESET_REQUEST });
 
 
 /* ACTIONS */
@@ -42,14 +42,11 @@ const initialState = {
 export const loadSingleProductRequest = (productId) => {
   return async dispatch => {
 
-    const url = new URL("https://asos2.p.rapidapi.com/products/v3/detail"),
-    params = {
-      store: "US",
-      sizeSchema: "US",
-      lang: "en-US",
-      currency: "USD",
-      id: productId
-    };
+    const url = new URL(`${BASE_URL}${API_PRODUCT_URL}`),
+      params = {
+        DETAIL_PARAMS,
+        id: productId
+      };
 
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
@@ -58,20 +55,18 @@ export const loadSingleProductRequest = (productId) => {
     fetch(url, HEADERS)
       .then(res => res.json())
       .then(res => {
-        if (res.error) {
-          throw (res.error);
-        }
-        
-        if (res.hasOwnProperty('message')){
+
+        if (res.hasOwnProperty('message')) {
           dispatch(errorRequest(res.message));
         }
         else {
           dispatch(loadSingleProduct(res));
+          dispatch(endRequest());
         }
-        dispatch(endRequest());
+
       })
       .catch(error => {
-        dispatch(errorRequest());
+        dispatch(errorRequest(error.message));
       });
   };
 };
@@ -90,7 +85,7 @@ export default function reducer(statePart = initialState, action = {}) {
     case ERROR_REQUEST:
       return { ...statePart, request: { pending: false, error: action.error, success: false } };
     case RESET_REQUEST:
-      return {...statePart, request: { pending: false, error: null, success: null } };
+      return { ...statePart, request: { pending: false, error: null, success: null } };
     default:
       return statePart;
   }
