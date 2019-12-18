@@ -8,8 +8,15 @@ import Pagination from "../../common/Pagination/Pagination";
 
 export class Products extends React.Component {
   componentDidMount() {
-    const { loadProducts, initialPage, productsPerPage } = this.props;
-    loadProducts(initialPage, productsPerPage);
+    const now = Date.now();
+    const { loadProducts, initialPage, productsPerPage, products, request } = this.props;
+
+    /* does not use API when producta are stored in state
+     and timeliness of data is less than 1 hour */
+    if (products.length === 0 || (now - request.timestamp) >= 3600000 ) {
+      loadProducts(initialPage, productsPerPage);
+    }
+    
   }
 
   loadProductsPage = page => {
