@@ -58,7 +58,7 @@ class SingleProduct extends React.Component {
             <div className="product-data">
               {product.price.isOutletPrice ? (
                 <div className="prices">
-                  <h5 lassName="current-price">Price: {product.price.current.text}</h5>
+                  <h5 className="current-price">Price: {product.price.current.text}</h5>
                   <h6 className="rrp-price">Old Price: {product.price.rrp.text}</h6>
                   <div className="outlet">outlet</div>
                 </div>
