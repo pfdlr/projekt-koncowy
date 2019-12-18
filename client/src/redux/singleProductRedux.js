@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { BASE_URL, API_PRODUCT_URL, HEADERS, DETAIL_PARAMS } from '../config';
 
 /* SELECTORS */

@@ -1,6 +1,5 @@
-import axios from "axios";
 import { BASE_URL, API_PRODUCTS_URL, HEADERS, LIST_PARAMS } from "../config";
-import { orderBy } from "lodash";
+
 
 /* SELECTORS */
 export const getRequest = ({ products }) => products.request;
@@ -8,8 +7,8 @@ export const getProductsCounter = ({ products }) => products.data.length;
 export const getSortedProducts = ({ products }) => {
   const end = (products.presentPage * products.productsPerPage);
   const start = (end - products.productsPerPage);
-  let _ = require('lodash')
-  let list = _.orderBy(products.data, products.key, products.order);
+  const orderBy = require('lodash.orderby')
+  const list = orderBy(products.data, products.key, products.order);
   return (list.slice(start, end))
 };
 
@@ -41,7 +40,7 @@ export const ERROR_REQUEST = createActionName("ERROR_REQUEST");
 export const RESET_REQUEST = createActionName("RESET_REQUEST");
 export const LOAD_PRODUCTS_PAGE = createActionName("LOAD_PRODUCTS_PAGE");
 export const SORT_ARGS = createActionName('SORT_ARGS');
-export const LOAD_SORTED_PRODUCTS = createActionName('LOAD_SORTED_PRODUCTS');
+//export const LOAD_SORTED_PRODUCTS = createActionName('LOAD_SORTED_PRODUCTS');
 
 /* INITIAL STATE */
 
@@ -50,7 +49,8 @@ const initialState = {
   request: {
     pending: false,
     error: null,
-    success: null
+    success: null,
+    timestamp: null
   },
   message: '',
   key: '',
@@ -105,7 +105,7 @@ export default function reducer(statePart = initialState, action = {}) {
     case START_REQUEST:
       return { ...statePart, request: { pending: true, error: null, success: null } };
     case END_REQUEST:
-      return { ...statePart, request: { pending: false, error: null, success: true } };
+      return { ...statePart, request: { pending: false, error: null, success: true, timestamp: Date.now() } };
     case ERROR_REQUEST:
       return { ...statePart, request: { pending: false, error: action.error, success: false } };
     case RESET_REQUEST:

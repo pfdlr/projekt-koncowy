@@ -61,7 +61,6 @@ export default function cartRedux(state = initialState, action) {
         }
     case REMOVE_PRODUCT:
       return { ...state, cartData: state.cartData.filter(item => !(item.id === action.payload)) };
-    /* case GET_DISCOUNT: return { ...state, data: action.payload }; */
     case INCREASE_PRODUCT:
       return { ...state, cartData: state.cartData.map(item => (item.id !== action.payload ? item : { ...item, amount: item.amount + 1 })) };
     case DECREASE_PRODUCT:
@@ -72,7 +71,3 @@ export default function cartRedux(state = initialState, action) {
       return state;
   }
 }
-////////////////////////////////////////////////
-/* { ...state, cartData: state.cartData.map(productId => (productId.id).indexOf(action.payload.id)) === -1 ?
-  {...state, cartData: [...state.cartData, action.payload]}  :
- {...state, cartData: state.cartData.map(productId => (productId.id !== action.payload) ? productId : { ...productId, amount: productId.amount+1 }) }}; */
