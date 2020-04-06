@@ -5,7 +5,7 @@
   "dependencies": {
     "animate.css": "3.7.0",
     "ansi-styles": "^4.2.0",
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "bootstrap": "^4.4.0",
     "chalk": "^3.0.0",
     "lodash": "^4.17.15",
