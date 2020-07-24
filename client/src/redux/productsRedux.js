@@ -1,5 +1,5 @@
 import { BASE_URL, API_PRODUCTS_URL, HEADERS, LIST_PARAMS } from "../config";
-
+import { orderBy } from "lodash";
 
 /* SELECTORS */
 export const getRequest = ({ products }) => products.request;
@@ -7,7 +7,6 @@ export const getProductsCounter = ({ products }) => products.data.length;
 export const getSortedProducts = ({ products }) => {
   const end = (products.presentPage * products.productsPerPage);
   const start = (end - products.productsPerPage);
-  const orderBy = require('lodash.orderby')
   const list = orderBy(products.data, products.key, products.order);
   return (list.slice(start, end))
 };
