@@ -13,8 +13,8 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 class SingleProduct extends React.Component {
   componentDidMount() {
-    const { loadSingleProduct, resetRequest } = this.props;
-    loadSingleProduct();
+    const { loadSingleProduct, resetRequest, productId } = this.props;
+    loadSingleProduct(productId);
     resetRequest();
   }
 
@@ -22,12 +22,12 @@ class SingleProduct extends React.Component {
     e.stopPropagation();
     const { addProductToCart, product } = this.props;
     addProductToCart({
-      id: product.data.id,
-      name: product.data.name,
-      price: product.data.price.current.text,
-      pricevalue: product.data.price.current.value,
-      imgurl: product.data.media.images[0].url,
-      brand: product.data.brand.name,
+      id: product.id,
+      name: product.name,
+      price: product.price.current.text,
+      pricevalue: product.price.current.value,
+      imgurl: product.media.images[0].url,
+      brand: product.brand.name,
       amount: 1
     });
     this.props.history.push("/cart");
@@ -39,8 +39,8 @@ class SingleProduct extends React.Component {
     if (request.pending === false && request.success === true)
       return (
         <div className="product-page">
-          <SectionTitle>{product.data.name}</SectionTitle>
-          <p>Brand: {product.data.brand.name}</p>
+          <SectionTitle>{product.name}</SectionTitle>
+          <p>Brand: {product.brand.name}</p>
           <div className="product-property">
             <div className="slider">
               <div className="slider-controls">
@@ -48,33 +48,33 @@ class SingleProduct extends React.Component {
                 <FaChevronRight onClick={() => this.onGoTo("next")} />
               </div>
               <TinySlider settings={settings} ref={ts => (this.ts = ts)}>
-                {product.data.media.images.map((image, i) => (
+                {product.media.images.map((image, i) => (
                   <div xs={12} sm={6} md={4} key={i} className="product-image">
-                    <img src={"http://" + image.url} alt={product.data.name} />
+                    <img src={"http://" + image.url} alt={product.name} />
                   </div>
                 ))}
               </TinySlider>
             </div>
             <div className="product-data">
-              {product.data.price.isOutletPrice ? (
+              {product.price.isOutletPrice ? (
                 <div className="prices">
-                  <h5 lassName="current-price">Price: {product.data.price.current.text}</h5>
-                  <h6 className="rrp-price">Old Price: {product.data.price.rrp.text}</h6>
+                  <h5 className="current-price">Price: {product.price.current.text}</h5>
+                  <h6 className="rrp-price">Old Price: {product.price.rrp.text}</h6>
                   <div className="outlet">outlet</div>
                 </div>
-              ) : product.data.price.isMarkedDown ? (
+              ) : product.price.isMarkedDown ? (
                 <div className="prices">
-                  <h5 className="current-price">Price: {product.data.price.current.text}</h5>
-                  <h6 className="rrp-price">Old Price: {product.data.price.previous.text}</h6>
+                  <h5 className="current-price">Price: {product.price.current.text}</h5>
+                  <h6 className="rrp-price">Old Price: {product.price.previous.text}</h6>
                   <div className="marked-down">marked down</div>
                 </div>
               ) : (
-                <h5 className="current-price">Price: {product.data.price.current.text}</h5>
+                <h5 className="current-price">Price: {product.price.current.text}</h5>
               )}
-              <HtmlBox>{product.data.description}</HtmlBox>
-              <HtmlBox>{product.data.info.aboutMe}</HtmlBox>
-              <HtmlBox>{product.data.info.sizeAndFit}</HtmlBox>
-              <HtmlBox>{product.data.info.careInfo}</HtmlBox>
+              <HtmlBox>{product.description}</HtmlBox>
+              <HtmlBox>{product.info.aboutMe}</HtmlBox>
+              <HtmlBox>{product.info.sizeAndFit}</HtmlBox>
+              <HtmlBox>{product.info.careInfo}</HtmlBox>
             </div>
           </div>
           <div className="product-buttons">

@@ -1,17 +1,15 @@
-import axios from "axios";
-import { BASE_URL, API_URL } from "../config";
+import { BASE_URL, API_PRODUCTS_URL, HEADERS, LIST_PARAMS } from "../config";
 import { orderBy } from "lodash";
 
 /* SELECTORS */
 export const getRequest = ({ products }) => products.request;
 export const getProductsCounter = ({ products }) => products.data.length;
 export const getSortedProducts = ({ products }) => {
-  const end =  (products.presentPage * products.productsPerPage);
+  const end = (products.presentPage * products.productsPerPage);
   const start = (end - products.productsPerPage);
-  let _ = require('lodash')
-  let list = _.orderBy([...products.data], products.key, products.order);
+  const list = orderBy(products.data, products.key, products.order);
   return (list.slice(start, end))
- };
+};
 
 
 
@@ -27,7 +25,7 @@ export const endRequest = () => ({ type: END_REQUEST });
 export const errorRequest = error => ({ error, type: ERROR_REQUEST });
 export const loadProducts = payload => ({ payload, type: LOAD_PRODUCTS });
 export const resetRequest = () => ({ type: RESET_REQUEST });
-export const setSortArgs = payload => ({payload, type: SORT_ARGS})
+export const setSortArgs = payload => ({ payload, type: SORT_ARGS })
 
 export const loadProductsByPage = payload => ({ payload, type: LOAD_PRODUCTS_PAGE });
 
@@ -41,7 +39,7 @@ export const ERROR_REQUEST = createActionName("ERROR_REQUEST");
 export const RESET_REQUEST = createActionName("RESET_REQUEST");
 export const LOAD_PRODUCTS_PAGE = createActionName("LOAD_PRODUCTS_PAGE");
 export const SORT_ARGS = createActionName('SORT_ARGS');
-export const LOAD_SORTED_PRODUCTS = createActionName('LOAD_SORTED_PRODUCTS');
+//export const LOAD_SORTED_PRODUCTS = createActionName('LOAD_SORTED_PRODUCTS');
 
 /* INITIAL STATE */
 
@@ -50,8 +48,10 @@ const initialState = {
   request: {
     pending: false,
     error: null,
-    success: null
+    success: null,
+    timestamp: null
   },
+  message: '',
   key: '',
   order: '',
   amount: 0,
@@ -63,16 +63,33 @@ const initialState = {
 /* load all products */
 export const loadProductsRequest = () => {
   return async dispatch => {
-    
+
+    const url = new URL(`${BASE_URL}${API_PRODUCTS_URL}`),
+      params = {
+        LIST_PARAMS,
+        categoryId: 27396
+      };
+
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
     dispatch(startRequest());
 
-    try {
-      let res = await axios.get(`${BASE_URL}${API_URL}/products`);
-      dispatch(loadProducts(res.data));
-      dispatch(endRequest());
-    } catch (e) {
-      dispatch(errorRequest(e.message));
-    }
+    fetch(url, HEADERS)
+      .then(res => res.json())
+      .then(res => {
+
+        if (res.hasOwnProperty('message')) {
+          dispatch(errorRequest(res.message));
+        }
+        else {
+          dispatch(loadProducts(res));
+          dispatch(endRequest());
+        }
+
+      })
+      .catch(error => {
+        dispatch(errorRequest(error.message));
+      });
   };
 };
 
@@ -83,16 +100,16 @@ export const loadProductsRequest = () => {
 export default function reducer(statePart = initialState, action = {}) {
   switch (action.type) {
     case LOAD_PRODUCTS:
-      return { ...statePart, data: action.payload.data.products };
+      return { ...statePart, data: action.payload.products };
     case START_REQUEST:
       return { ...statePart, request: { pending: true, error: null, success: null } };
     case END_REQUEST:
-      return { ...statePart, request: { pending: false, error: null, success: true } };
+      return { ...statePart, request: { pending: false, error: null, success: true, timestamp: Date.now() } };
     case ERROR_REQUEST:
       return { ...statePart, request: { pending: false, error: action.error, success: false } };
     case RESET_REQUEST:
       return { ...statePart, request: { pending: false, error: null, success: null } };
-    case SORT_ARGS: 
+    case SORT_ARGS:
       return { ...statePart, key: action.payload.key, order: action.payload.order };
     case LOAD_PRODUCTS_PAGE:
       return { ...statePart, presentPage: action.payload };
