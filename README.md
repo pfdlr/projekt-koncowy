@@ -1,6 +1,10 @@
 ## Informacja o projekcie
 
 Projekt końcowy w ramach bootcampu KODILLI
+
+### DEMO
+https://shop-final-project.netlify.app/
+
 ### INFO
 
 Projekt na bazie poprzednich modułów dotyczących MERN W założeniu miał powstać w oparciu o full stack MERN ale ze względu ograniczeń czasowych (mogłem poświęcić na niego tylko 2 tyg.), uległ pewnym modyfikacjom.
@@ -10,9 +14,6 @@ Po refactoringu: usunąłem część serwerową, w części klienta dodałem obs
 Ze względu na wspomniane ograniczenia czasowe skupiłem się na wymaganych w założeniach projektu funkcjonalnościach. W niektórych przypadkach ograniczyłem się do najprostszych rozwiązań - niekoniecznie najlepszych.
 
 Stylowanie skromne.
-
-Uruchomienie
-Projekt można uruchomić tylko lokalnie
 
 ### API
 Korzystam z API z rapidapi.com z limitem zapytań 500/miesiąc, więc gdyby aplikacja przestała działać może znaczyć to, że limit został wyczerpany
